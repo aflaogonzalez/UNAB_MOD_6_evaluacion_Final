@@ -8,24 +8,25 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.unab.m6_ae2abp.R
-import cl.unab.m6_ae2abp.databinding.FragmentLeerNoticiasBinding
-import cl.unab.m6_ae2abp.viewmodel.NoticiaViewModel
+import cl.unab.m6_ae2abp.databinding.FragmentLeerProductosBinding
+import cl.unab.m6_ae2abp.viewmodel.ProductoViewModel
 
-class LeerNoticiasFragment : Fragment() {
+class LeerProductosFragment : Fragment() {
 
-    private var _binding: FragmentLeerNoticiasBinding? = null
+    private var _binding: FragmentLeerProductosBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: NoticiaViewModel by viewModels()
-    private lateinit var noticiaAdapter: NoticiaAdapter
+    private val viewModel: ProductoViewModel by viewModels()
+    private lateinit var productoAdapter: ProductoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLeerNoticiasBinding.inflate(inflater, container, false)
+        _binding = FragmentLeerProductosBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,24 +34,24 @@ class LeerNoticiasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize Adapter and RecyclerView
-        noticiaAdapter = NoticiaAdapter(emptyList(), viewModel)
-        binding.rvNoticias.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvNoticias.adapter = noticiaAdapter
+        productoAdapter = ProductoAdapter(emptyList(), viewModel)
+        binding.rvProductos.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvProductos.adapter = productoAdapter
 
         // Observe LiveData from ViewModel
-        viewModel.noticias.observe(viewLifecycleOwner) { noticias ->
-            noticiaAdapter.updateNoticias(noticias)
+        viewModel.productos.observe(viewLifecycleOwner) { producto ->
+            productoAdapter.updateProductos(producto)
         }
 
         viewModel.eliminacionExitosa.observe(viewLifecycleOwner) { exitoso ->
             if (exitoso) {
-                Toast.makeText(requireContext(), "Noticia eliminada con éxito", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Producto eliminado con éxito", Toast.LENGTH_SHORT).show()
             }
         }
 
         // Navigation to Create Fragment
-        binding.btnCrearNoticia.setOnClickListener {
-            findNavController().navigate(R.id.action_leerNoticiasFragment_to_crearNoticiaFragment)
+        binding.btnCrearProducto.setOnClickListener {
+            findNavController().navigate(R.id.action_leerProductosFragment_to_crearProductoFragment)
         }
     }
 

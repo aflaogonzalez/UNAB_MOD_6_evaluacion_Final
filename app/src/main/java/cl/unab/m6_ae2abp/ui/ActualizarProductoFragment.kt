@@ -10,22 +10,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cl.unab.m6_ae2abp.R
-import cl.unab.m6_ae2abp.databinding.FragmentActualizarNoticiaBinding
-import cl.unab.m6_ae2abp.modelo.Noticia
-import cl.unab.m6_ae2abp.viewmodel.NoticiaViewModel
+import cl.unab.m6_ae2abp.databinding.FragmentActualizarProductoBinding
+import cl.unab.m6_ae2abp.modelo.Producto
+import cl.unab.m6_ae2abp.viewmodel.ProductoViewModel
 
-class ActualizarNoticiaFragment : Fragment() {
+class ActualizarProductoFragment : Fragment() {
 
-    private var _binding: FragmentActualizarNoticiaBinding? = null
+    private var _binding: FragmentActualizarProductoBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: NoticiaViewModel by viewModels()
+    private val viewModel: ProductoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentActualizarNoticiaBinding.inflate(inflater, container, false)
+        _binding = FragmentActualizarProductoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,7 +40,7 @@ class ActualizarNoticiaFragment : Fragment() {
         binding.btnBuscar.setOnClickListener {
             val id = binding.tidtBuscarId.text.toString().toIntOrNull()
             if (id != null) {
-                viewModel.buscarNoticiaPorId(id)
+                viewModel.buscarProductoPorId(id)
             } else {
                 Toast.makeText(requireContext(), "Por favor, ingrese un ID válido", Toast.LENGTH_SHORT).show()
             }
@@ -48,17 +48,14 @@ class ActualizarNoticiaFragment : Fragment() {
 
         binding.btnActualizar.setOnClickListener {
             val id = binding.tidtId.text.toString().toIntOrNull()
-            val titulo = binding.tietTitulo.text.toString()
+            val nombre = binding.tietNombre.text.toString()
             val descripcion = binding.tietDescripcion.text.toString()
-            var url = binding.tietFuenteURL.text.toString()
+            val precio = binding.tietPrecio.text.toString().toIntOrNull()
+            val cantidad = binding.tietCantidad.text.toString().toIntOrNull()
 
-            if (url.isNotEmpty() && !url.startsWith("http://") && !url.startsWith("https://")) {
-                url = "https://$url"
-            }
-
-            if (id != null && titulo.isNotEmpty() && descripcion.isNotEmpty() && url.isNotEmpty()) {
-                val noticia = Noticia(id, titulo, descripcion, url)
-                viewModel.actualizarNoticia(id, noticia)
+            if (id != null && nombre.isNotEmpty() && descripcion.isNotEmpty() && precio != null && cantidad != null) {
+                val producto = Producto(id, nombre, descripcion, precio, cantidad)
+                viewModel.actualizarProducto(id, producto)
             } else {
                 Toast.makeText(requireContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
             }
@@ -67,30 +64,31 @@ class ActualizarNoticiaFragment : Fragment() {
         binding.btnCancelar.setOnClickListener {
             limpiarFormulario()
             binding.cvFormulario.isVisible = false
-            findNavController().navigate(R.id.action_actualizarNoticiaFragment_to_leerNoticiasFragment)
+            findNavController().navigate(R.id.action_actualizarProductoFragment_to_leerProductosFragment)
         }
     }
 
     private fun setupObservers() {
-        viewModel.noticiaEncontrada.observe(viewLifecycleOwner) { noticia ->
-            if (noticia != null) {
+        viewModel.productoEncontrada.observe(viewLifecycleOwner) { producto ->
+            if (producto != null) {
                 binding.cvFormulario.isVisible = true
-                binding.tidtId.setText(noticia.id.toString())
-                binding.tietTitulo.setText(noticia.titulo)
-                binding.tietDescripcion.setText(noticia.descripcion)
-                binding.tietFuenteURL.setText(noticia.fuente_url)
+                binding.tidtId.setText(producto.id.toString())
+                binding.tietNombre.setText(producto.nombre)
+                binding.tietDescripcion.setText(producto.descripcion)
+                binding.tietPrecio.setText(producto.precio)
+                binding.tietCantidad.setText(producto.cantidad)
             } else {
                 binding.cvFormulario.isVisible = false
-                Toast.makeText(requireContext(), "Noticia no encontrada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Producto no encontrado", Toast.LENGTH_SHORT).show()
             }
         }
 
         viewModel.actualizacionExitosa.observe(viewLifecycleOwner) { exitoso ->
             if (exitoso) {
-                Toast.makeText(requireContext(), "Noticia actualizada con éxito", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_actualizarNoticiaFragment_to_leerNoticiasFragment)
+                Toast.makeText(requireContext(), "Producto actualizado con éxito", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_actualizarProductoFragment_to_leerProductosFragment)
             } else {
-                Toast.makeText(requireContext(), "Error al actualizar la noticia", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error al actualizar el producto", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -98,9 +96,10 @@ class ActualizarNoticiaFragment : Fragment() {
     private fun limpiarFormulario() {
         binding.tidtBuscarId.text?.clear()
         binding.tidtId.text?.clear()
-        binding.tietTitulo.text?.clear()
+        binding.tietNombre.text?.clear()
         binding.tietDescripcion.text?.clear()
-        binding.tietFuenteURL.text?.clear()
+        binding.tietPrecio.text?.clear()
+        binding.tietCantidad.text?.clear()
     }
 
     override fun onDestroyView() {

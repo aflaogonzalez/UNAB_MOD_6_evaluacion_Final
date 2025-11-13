@@ -5,14 +5,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://test-poke-341597259134.europe-west1.run.app/"
+    private const val BASE_URL = "https://evaluacion-6-341597259134.europe-west1.run.app/"
 
-    val api: NoticiaService by lazy {
+    val api: ProductoService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(NoticiaService::class.java)
+            .create(ProductoService::class.java)
     }
 
 }

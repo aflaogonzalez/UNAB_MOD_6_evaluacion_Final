@@ -3,36 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/leerNoticiasFragment">
+    app:startDestination="@id/leerProductosFragment">
 
     <fragment
-        android:id="@+id/leerNoticiasFragment"
-        android:name="cl.unab.m6_ae2abp.ui.LeerNoticiasFragment"
-        android:label="fragment_leer_noticias"
-        tools:layout="@layout/fragment_leer_noticias" >
+        android:id="@+id/leerProductosFragment"
+        android:name="cl.unab.m6_ae2abp.ui.LeerProductosFragment"
+        android:label="fragment_leer_productos"
+        tools:layout="@layout/fragment_leer_productos" >
         <action
-            android:id="@+id/action_leerNoticiasFragment_to_crearNoticiaFragment"
-            app:destination="@id/crearNoticiaFragment" />
+            android:id="@+id/action_leerProductosFragment_to_crearProductoFragment"
+            app:destination="@id/crearProductoFragment" />
         <action
-            android:id="@+id/action_leerNoticiasFragment_to_actualizarNoticiaFragment"
-            app:destination="@id/actualizarNoticiaFragment" />
+            android:id="@+id/action_leerProductosFragment_to_actualizarProductoFragment"
+            app:destination="@id/actualizarProductoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/crearNoticiaFragment"
-        android:name="cl.unab.m6_ae2abp.ui.CrearNoticiaFragment"
-        android:label="fragment_crear_noticia"
-        tools:layout="@layout/fragment_crear_noticia" >
+        android:id="@+id/crearProductoFragment"
+        android:name="cl.unab.m6_ae2abp.ui.CrearProductoFragment"
+        android:label="fragment_crear_producto"
+        tools:layout="@layout/fragment_crear_producto" >
         <action
-            android:id="@+id/action_crearNoticiaFragment_to_leerNoticiasFragment"
-            app:destination="@id/leerNoticiasFragment" />
+            android:id="@+id/action_crearProductoFragment_to_leerProductosFragment"
+            app:destination="@id/leerProductosFragment" />
     </fragment>
     <fragment
-        android:id="@+id/actualizarNoticiaFragment"
-        android:name="cl.unab.m6_ae2abp.ui.ActualizarNoticiaFragment"
-        android:label="fragment_actualizar_noticia"
-        tools:layout="@layout/fragment_actualizar_noticia" >
+        android:id="@+id/actualizarProductoFragment"
+        android:name="cl.unab.m6_ae2abp.ui.ActualizarProductoFragment"
+        android:label="fragment_actualizar_producto"
+        tools:layout="@layout/fragment_actualizar_producto" >
         <action
-            android:id="@+id/action_actualizarNoticiaFragment_to_leerNoticiasFragment"
-            app:destination="@id/leerNoticiasFragment" />
+            android:id="@+id/action_actualizarProductoFragment_to_leerProductosFragment"
+            app:destination="@id/leerProductosFragment" />
     </fragment>
 </navigation>

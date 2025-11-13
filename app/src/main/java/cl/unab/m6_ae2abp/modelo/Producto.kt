@@ -4,9 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Noticia(
+data class Producto(
     var id: Int,
-    var titulo: String,
+    var nombre: String,
     var descripcion: String,
-    var fuente_url: String
+    var precio: Int,
+    var cantidad: Int
 ) : Parcelable
